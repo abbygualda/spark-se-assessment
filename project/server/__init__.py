@@ -15,7 +15,7 @@ if os.environ.get('FLASK_COVERAGE'):
     COV.start()
 
 import click
-from flask import Flask
+from flask import Flask,request
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -37,6 +37,15 @@ migrate = Migrate(app, db)
 @app.route("/")
 def root_site():
     return "<p>It works!</p>"
+
+@app.route("/users/index")
+def allMembers():
+    allUsers = {}
+    members = User.query.all()
+    for person in members:
+        allUsers[person.email] = person.password
+    return allUsers
+
 
 from project.server.auth.views import auth_blueprint
 app.register_blueprint(auth_blueprint)
@@ -68,3 +77,4 @@ def test(coverage):
             COV.erase()
         return 0
     return 1
+
