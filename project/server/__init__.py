@@ -38,6 +38,7 @@ migrate = Migrate(app, db)
 def root_site():
     return "<p>It works!</p>"
 
+#added code here 
 @app.route("/users/index")
 def allMembers():
     allUsers = {}
